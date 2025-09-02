@@ -25,22 +25,7 @@
   const CPMs = ["Charisse","OT","Hanna","Rizki"];
   const Products = ["VA","eWallet","Cards","Direct Debit","QR Code"];
   const LeadFlows = ["Self Serve","Sales","CPM"];
-  const MktActs = ["Event campaign","Campaign","Non Marketing"];\n  const BIDs = [\n    "BID-1001",
-    "BID-1002",
-    "BID-1003",
-    "BID-1004",
-    "BID-1005",
-    "BID-1006",
-    "BID-1007",
-    "BID-1008",
-    "BID-1009",
-    "BID-1010",
-    "BID-1011",
-    "BID-1012",
-    "BID-1013",
-    "BID-1014",
-    "BID-1015",
-    "BID-1016"\n  ];
+  const MktActs = ["Event campaign","Campaign","Non Marketing"];
 
   // Mock partners
   const Partners = Array.from({length: 220}).map((_,i)=>{
@@ -59,7 +44,7 @@
     const netNetRate= Math.max(0.001, netRate   - rand(0.0005, 0.004));
     const monthsAgo = Math.floor(rand(0, 20));
     const activation = new Date(now.getFullYear(), now.getMonth()-monthsAgo, 1 + Math.floor(rand(0,25)));
-    return { id:'P'+(i+1), bid: choice(BIDs), country, partnerCat:choice(PartnerCats), agreement:choice(Agreements), industry, cpm:choice(CPMs), product, lead:choice(LeadFlows), mkt:choice(MktActs), activation, baseTPV, grossRate, netRate, netNetRate };
+    return { id:'P'+(i+1), country, partnerCat:choice(PartnerCats), agreement:choice(Agreements), industry, cpm:choice(CPMs), product, lead:choice(LeadFlows), mkt:choice(MktActs), activation, baseTPV, grossRate, netRate, netNetRate };
   });
 
   function seasonalFactor(month, industry){
@@ -79,7 +64,6 @@
       cpm: document.getElementById('f_cpm').value,
       product: document.getElementById('f_product').value,
       lead: document.getElementById('f_lead').value,
-      bid: document.getElementById('f_bid').value,
       mkt: document.getElementById('f_mkt').value,
       age: document.getElementById('f_age').value,
     };
@@ -91,7 +75,6 @@
     if(f.agreement!=='All' && p.agreement!==f.agreement) return false;
     if(f.industry!=='All' && p.industry!==f.industry) return false;
     if(f.cpm!=='All' && p.cpm!==f.cpm) return false;
-    if(f.bid!=='All' && p.bid!==f.bid) return false;
     if(f.product!=='All' && p.product!==f.product) return false;
     if(f.lead!=='All' && p.lead!==f.lead) return false;
     if(f.mkt!=='All' && p.mkt!==f.mkt) return false;
@@ -321,10 +304,10 @@ drawBars('ch_margin_gross_bars', hasData ? barsForRatio('gross','tpv') : [], 'Gr
       document.getElementById('toggleFilters').textContent = fb.open ? 'Hide filters' : 'Show filters';
     });
     document.getElementById('resetBtn').addEventListener('click', ()=>{
-      ['f_country','f_partnerCat','f_agreement','f_industry','f_cpm','f_bid','f_product','f_lead','f_mkt','f_age'].forEach(id=> document.getElementById(id).selectedIndex = 0);
+      ['f_country','f_partnerCat','f_agreement','f_industry','f_cpm','f_product','f_lead','f_mkt','f_age'].forEach(id=> document.getElementById(id).selectedIndex = 0);
       draw();
     });
-    ['f_country','f_partnerCat','f_agreement','f_industry','f_cpm','f_bid','f_product','f_lead','f_mkt','f_age']
+    ['f_country','f_partnerCat','f_agreement','f_industry','f_cpm','f_product','f_lead','f_mkt','f_age']
       .forEach(id=> document.getElementById(id).addEventListener('change', draw));
 
     draw(); if(diag) diag.style.display = 'none';
